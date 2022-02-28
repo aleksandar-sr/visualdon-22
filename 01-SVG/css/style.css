@@ -1,8 +1,7 @@
 body {
-      font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 #c_hover:hover {
-      fill: white;
-      
+  fill: white;
 }

@@ -34,11 +34,11 @@
   <h2>Path</h2>
 
   <svg>
-    <path d="M 10 90 L 40 20 L 70 90 M 20 60 H 60 Z" fill="transparent" stroke-width="4" stroke="black"/>
-    <path d="M 80 20 V 90 H 120 " fill="transparent" stroke-width="4" stroke="black"/>
-    <path d="M 130 20 V 90 H 170 M 130 20 H 170 M 130 60 H 170" fill="transparent" stroke-width="4" stroke="black"/>
-    <path d="M 180 20 V 90 M 180 60 L 210 20 M 180 60 L 210 90" fill="transparent" stroke-width="4" stroke="black"/>
-    <path d="M 230 20 H 220 V 30 M 220 20 V 50 H 250 V 90 H 220" fill="transparent" stroke-width="4" stroke="black"/>
+    <path d="M 10 90 L 40 20 L 70 90 M 20 60 H 60 Z" fill="transparent" stroke-width="4" stroke="black" />
+    <path d="M 80 20 V 90 H 120 " fill="transparent" stroke-width="4" stroke="black" />
+    <path d="M 130 20 V 90 H 170 M 130 20 H 170 M 130 60 H 170" fill="transparent" stroke-width="4" stroke="black" />
+    <path d="M 180 20 V 90 M 180 60 L 210 20 M 180 60 L 210 90" fill="transparent" stroke-width="4" stroke="black" />
+    <path d="M 230 20 H 220 V 30 M 220 20 V 50 H 250 V 90 H 220" fill="transparent" stroke-width="4" stroke="black" />
   </svg>
 
   <h1>Animer des formes</h1>
@@ -56,15 +56,16 @@
 
   <h2>Prenez la première lettre de votre prénom que vous avez créée ci-dessus. Faite bouger une forme de votre choix le
     long de la lettre</h2>
-    <svg>
-      <path d="M 10 90 L 40 20 L 70 90 M 20 60 H 60 Z" fill="transparent" stroke-width="4" stroke="black" id="theMotionPath"/>
-      <circle cx="" cy="" r="5" fill="green">
+  <svg>
+    <path d="M 10 90 L 40 20 L 70 90 M 20 60 H 60 Z" fill="transparent" stroke-width="4" stroke="black"
+      id="theMotionPath" />
+    <circle cx="" cy="" r="5" fill="green">
       <!-- Définit l'animation -->
-    <animateMotion dur="6s" repeatCount="indefinite">
-      <mpath xlink:href="#theMotionPath"/>
-    </animateMotion>  
-      </circle>
-    </svg>
+      <animateMotion dur="6s" repeatCount="indefinite">
+        <mpath xlink:href="#theMotionPath" />
+      </animateMotion>
+    </circle>
+  </svg>
 
 
 </body>
