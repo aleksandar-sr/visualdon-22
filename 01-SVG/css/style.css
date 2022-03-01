@@ -2,6 +2,6 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
-#c_hover:hover {
-  fill: white;
+#hover_circle {
+  transition: all .6s;
 }
