@@ -107,7 +107,6 @@ console.log(maximalRevenue);
 let popArray = combinationDonnee[221].data.map((d) => d.population);
 let maxPopulation = d3.max(popArray);
 
-//Graphique-------------------------------------------------------------------------------------
 // set the dimensions and margins of the graph
 var margin = { top: 10, right: 20, bottom: 30, left: 50 },
   width = 1000 - margin.left - margin.right,
@@ -122,7 +121,6 @@ var svg = d3
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//Axes-------------------------------------------------------------------------------------
 // Ajout de l'axe des X
 var x = d3.scalePow().domain([0, maximalRevenue]).range([0, width]);
 svg
