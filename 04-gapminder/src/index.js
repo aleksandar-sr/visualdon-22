@@ -1,7 +1,7 @@
 import * as d3 from "d3";
-import pibData from "/data/income_per_person_gdppercapita_ppp_inflation_adjusted.csv"; 
-import esperanceVie from "/data/life_expectancy_years.csv"; 
-import populationTotal from "../data/population_total.csv"; 
+import pibData from "/data/income_per_person_gdppercapita_ppp_inflation_adjusted.csv";
+import esperanceVie from "/data/life_expectancy_years.csv";
+import populationTotal from "../data/population_total.csv";
 
 // Récupère toutes les années
 const annees = Object.keys(populationTotal[0]);
@@ -27,19 +27,19 @@ let convertisseurSI = (array, variable, nomVariable) => {
     switch (SI) {
       case "M": {
         return { country: d.country, [nomVariable]: Math.pow(10, 6) * number };
-        break
+        break;
       }
       case "B": {
         return { country: d.country, [nomVariable]: Math.pow(10, 9) * number };
-        break
+        break;
       }
       case "k": {
         return { country: d.country, [nomVariable]: Math.pow(10, 3) * number };
-        break
+        break;
       }
       default: {
         return { country: d.country, [nomVariable]: number };
-        break
+        break;
       }
     }
   });
@@ -155,3 +155,84 @@ svg
   .style("fill", "#0D00B2")
   .style("opacity", "0.8")
   .attr("stroke", "black");
+
+//Part.2 ----------Carte---------------------------------------------------
+
+let listPays = [];
+
+esperanceVie.forEach((row) => {
+  let countryData = {};
+  countryData[row["country"]] = row["2021"];
+  listPays.push(countryData);
+});
+
+d3.select("body").append("div").attr("id", "graph");
+
+let margin_carte = { top: 20, right: 20, bottom: 30, left: 50 },
+  width_carte = 650 - margin_carte.left - margin_carte.right,
+  height_carte = 500 - margin_carte.top - margin_carte.bottom;
+
+let svg_carte = d3
+  .select("#graph")
+  .append("svg")
+  .attr("width", width_carte + margin_carte.left + margin_carte.right)
+  .attr("height", height_carte + margin_carte.top + margin_carte.bottom);
+
+let projection = d3
+  .geoMercator()
+  .scale(70)
+  .center([0, 20])
+  .translate([width_carte / 2, height_carte / 2]);
+
+let aRandomNb = Math.floor(Math.random() * 6);
+let aRandomScheme;
+switch (aRandomNb) {
+  case 0:
+    aRandomScheme = d3.schemeOranges;
+    break;
+  case 1:
+    aRandomScheme = d3.schemeGreens;
+    break;
+  case 2:
+    aRandomScheme = d3.schemeReds;
+    break;
+  case 3:
+    aRandomScheme = d3.schemeBlues;
+    break;
+  case 4:
+    aRandomScheme = d3.schemeGreys;
+    break;
+  case 5:
+    aRandomScheme = d3.schemePurples;
+    break;
+}
+
+let colorScale = d3
+  .scaleThreshold()
+  .domain([50, 60, 70, 80, 90, 100])
+  .range(aRandomScheme[7]);
+
+d3.json(
+  "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"
+).then(function (d) {
+  svg_carte
+    .append("g")
+    .selectAll("path")
+    .data(d.features)
+    .join("path")
+    .attr("d", d3.geoPath().projection(projection))
+    .attr("id", function (d) {
+      return d.properties.name;
+    })
+    .attr("fill", function (d) {
+      let number = 0;
+      listPays.forEach((country) => {
+        if (typeof country[this.id] != "undefined") {
+          console.log(country[this.id]);
+          number = country[this.id];
+        }
+      });
+      console.log(number);
+      return colorScale(number);
+    });
+});
