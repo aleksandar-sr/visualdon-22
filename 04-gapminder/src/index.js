@@ -234,3 +234,52 @@ d3.json(
       return colorScale(number);
     });
 });
+
+//Part.3 ----------Animation---------------------------------------------------
+annees.forEach((annee) => {
+  populationTotal.push({ annee: annee, data: converterSI(population, annee, "populationTotal") });
+  pibData.push({ annee: annee, data: converterSI(gdp, annee, "pibData") });
+  esperanceVie.push({ annee: annee, data: converterSI(lifeExpectancy, annee, "esperanceVie") });
+  const popAnnee = pop.filter((d) => d.annee == annee).map((d) => d.data)[0];
+  const incomeAnnee = income
+    .filter((d) => d.annee == annee)
+    .map((d) => d.data)[0];
+  const lifeAnnee = life.filter((d) => d.annee == annee).map((d) => d.data)[0];
+  dataCombined.push({
+    annee: annee,
+    data: mergeByCountry(popAnnee, incomeAnnee, lifeAnnee),
+  });
+});
+
+function converterSI(array, variable, variableName) {
+  let convertedVariable = array.map((d) => {
+    // Trouver le format SI (M, B, k)
+    let SI =
+      typeof d[variable.toString()] === "string" ||
+      d[variable.toString()] instanceof String
+        ? d[variable.toString()].slice(-1)
+        : d[variable.toString()];
+    // Extraire la partie numérique
+    let number =
+      typeof d[variable.toString()] === "string" ||
+      d[variable.toString()] instanceof String
+        ? parseFloat(d[variable.toString()].slice(0, -1))
+        : d[variable.toString()];
+    // Selon la valeur SI, multiplier par la puissance
+    switch (SI) {
+      case "M": {
+        return { country: d.country, [variableName]: Math.pow(10, 6) * number };
+      }
+      case "B": {
+        return { country: d.country, [variableName]: Math.pow(10, 9) * number };
+      }
+      case "k": {
+        return { country: d.country, [variableName]: Math.pow(10, 3) * number };
+      }
+      default: {
+        return { country: d.country, [variableName]: number };
+      }
+    }
+  });
+  return convertedVariable;
+}
